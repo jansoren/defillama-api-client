@@ -2,75 +2,75 @@ package no.jansoren.defillama.model.protocols;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public record ChainTvls(
+public record CurrentChainTvls(
 
     @JsonProperty("Fantom")
-    Fantom fantom,
+    Object fantom,
 
     @JsonProperty("Arbitrum")
-    Arbitrum arbitrum,
+    Object arbitrum,
 
     @JsonProperty("Harmony")
-    Harmony harmony,
+    Integer harmony,
 
     @JsonProperty("Avalanche-borrowed")
-    AvalancheBorrowed avalancheBorrowed,
+    Object avalancheBorrowed,
 
     @JsonProperty("pool2")
-    Pool2 pool2,
+    Object pool2,
 
     @JsonProperty("Metis")
-    Metis metis,
+    Object metis,
 
     @JsonProperty("Avalanche")
-    Avalanche avalanche,
+    Object avalanche,
 
     @JsonProperty("Ethereum-staking")
-    EthereumStaking ethereumStaking,
+    Object ethereumStaking,
 
     @JsonProperty("Base")
-    Base base,
+    Object base,
 
     @JsonProperty("Base-borrowed")
-    BaseBorrowed baseBorrowed,
+    Object baseBorrowed,
 
     @JsonProperty("Optimism")
-    Optimism optimism,
+    Object optimism,
 
     @JsonProperty("Optimism-borrowed")
-    OptimismBorrowed optimismBorrowed,
+    Object optimismBorrowed,
 
     @JsonProperty("staking")
-    Staking staking,
+    Object staking,
 
     @JsonProperty("Arbitrum-borrowed")
-    ArbitrumBorrowed arbitrumBorrowed,
+    Object arbitrumBorrowed,
 
     @JsonProperty("Harmony-borrowed")
-    HarmonyBorrowed harmonyBorrowed,
+    Object harmonyBorrowed,
 
     @JsonProperty("Fantom-borrowed")
-    FantomBorrowed fantomBorrowed,
+    Object fantomBorrowed,
 
     @JsonProperty("Ethereum")
-    Ethereum ethereum,
+    Object ethereum,
 
     @JsonProperty("Ethereum-pool2")
-    EthereumPool2 ethereumPool2,
+    Object ethereumPool2,
 
     @JsonProperty("Metis-borrowed")
-    MetisBorrowed metisBorrowed,
+    Object metisBorrowed,
 
     @JsonProperty("Ethereum-borrowed")
-    EthereumBorrowed ethereumBorrowed,
+    Object ethereumBorrowed,
 
     @JsonProperty("Polygon")
-    Polygon polygon,
+    Object polygon,
 
     @JsonProperty("Polygon-borrowed")
-    PolygonBorrowed polygonBorrowed,
+    Object polygonBorrowed,
 
     @JsonProperty("borrowed")
-    Borrowed borrowed
+    Object borrowed
 ) {
 }

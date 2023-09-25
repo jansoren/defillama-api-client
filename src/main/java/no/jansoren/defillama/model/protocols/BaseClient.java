@@ -9,36 +9,38 @@ import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.List;
-import java.util.concurrent.CompletionException;
 import java.util.concurrent.ExecutionException;
 
-public class ProtocolsClient {
+public class BaseClient {
 
-    private final HttpClient httpClient;
-    private final ObjectMapper objectMapper;
+    protected final HttpClient httpClient;
+    protected final ObjectMapper objectMapper;
 
-    public ProtocolsClient(HttpClient httpClient, ObjectMapper objectMapper) {
+    public BaseClient(HttpClient httpClient, ObjectMapper objectMapper) {
         this.httpClient = httpClient;
         this.objectMapper = objectMapper;
     }
 
-    public List<Protocol> getProtocols() {
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(createUri("https://api.llama.fi/protocols"))
-                .GET()
-                .build();
+    protected <T> T get(String uri, TypeReference<T> valueTypeRef) {
         try {
-            return httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+            return httpClient.sendAsync(createGetRequest(uri), HttpResponse.BodyHandlers.ofString())
                     .thenApply(HttpResponse::body)
-                    .thenApply(json -> fromJson(json, new TypeReference<List<Protocol>>(){}))
+                    .thenApply(json -> fromJson(json, valueTypeRef))
                     .get();
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private static URI createUri(String uri) {
+    private HttpRequest createGetRequest(String uri) {
+        var request = HttpRequest.newBuilder()
+                .uri(createUri(uri))
+                .GET()
+                .build();
+        return request;
+    }
+
+    private URI createUri(String uri) {
         try {
             return new URI(uri);
         } catch (URISyntaxException e) {
@@ -46,7 +48,7 @@ public class ProtocolsClient {
         }
     }
 
-    public <T> T fromJson(String json, Class<T> clz) {
+    private <T> T fromJson(String json, Class<T> clz) {
         try {
             return objectMapper.readValue(json, clz);
         } catch (IOException ioe) {
@@ -54,12 +56,11 @@ public class ProtocolsClient {
         }
     }
 
-    public <T> T fromJson(String json, TypeReference<T> valueTypeRef) {
+    private <T> T fromJson(String json, TypeReference<T> valueTypeRef) {
         try {
             return objectMapper.readValue(json, valueTypeRef);
         } catch (IOException ioe) {
             throw new RuntimeException(ioe);
         }
     }
-
 }

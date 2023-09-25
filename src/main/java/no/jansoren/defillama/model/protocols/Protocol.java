@@ -1,110 +1,83 @@
 package no.jansoren.defillama.model.protocols;
 
-import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public record Protocol(
 
-	@JsonProperty("symbol")
-	String symbol,
+    @JsonProperty("symbol")
+    String symbol,
 
-	@JsonProperty("change_7d")
-	Object change7d,
+    @JsonProperty("currentChainTvls")
+    CurrentChainTvls currentChainTvls,
 
-	@JsonProperty("gecko_id")
-	Object geckoId,
+    @JsonProperty("gecko_id")
+    String geckoId,
 
-	@JsonProperty("chains")
-	List<String> chains,
+    @JsonProperty("chains")
+    List<Object> chains,
 
-	@JsonProperty("forkedFrom")
-	List<Object> forkedFrom,
+    @JsonProperty("description")
+    String description,
 
-	@JsonProperty("audit_note")
-	Object auditNote,
+    @JsonProperty("isParentProtocol")
+    Boolean isParentProtocol,
 
-	@JsonProperty("description")
-	String description,
+    @JsonProperty("governanceID")
+    List<String> governanceID,
 
-	@JsonProperty("cmcId")
-	Object cmcId,
+    @JsonProperty("cmcId")
+    String cmcId,
 
-	@JsonProperty("twitter")
-	String twitter,
+    @JsonProperty("twitter")
+    String twitter,
 
-	@JsonProperty("oracles")
-	List<Object> oracles,
+    @JsonProperty("hallmarks")
+    List<List<String>> hallmarks,
 
-	@JsonProperty("logo")
-	String logo,
+    @JsonProperty("raises")
+    List<RaisesItem> raises,
 
-	@JsonProperty("id")
-	String id,
+    @JsonProperty("logo")
+    String logo,
 
-	@JsonProperty("audits")
-	String audits,
+    @JsonProperty("tokens")
+    List<TokensItem> tokens,
 
-	@JsonProperty("slug")
-	String slug,
+    @JsonProperty("id")
+    String id,
 
-	@JsonProperty("chain")
-	String chain,
+    @JsonProperty("github")
+    List<String> github,
 
-	@JsonProperty("address")
-	Object address,
+    @JsonProperty("tokensInUsd")
+    List<TokensInUsdItem> tokensInUsd,
 
-	@JsonProperty("module")
-	String module,
+    @JsonProperty("tvl")
+    List<Tvl> tvl,
 
-	@JsonProperty("tvl")
-	Object tvl,
+    @JsonProperty("url")
+    String url,
 
-	@JsonProperty("listedAt")
-	int listedAt,
+    @JsonProperty("treasury")
+    String treasury,
 
-	@JsonProperty("url")
-	String url,
+    @JsonProperty("wrongLiquidity")
+    Boolean wrongLiquidity,
 
-	@JsonProperty("tokenBreakdowns")
-	Object tokenBreakdowns,
+    @JsonProperty("mcap")
+    Object mcap,
 
-	@JsonProperty("mcap")
-	Object mcap,
+    @JsonProperty("otherProtocols")
+    List<String> otherProtocols,
 
-	@JsonProperty("name")
-	String name,
+    @JsonProperty("name")
+    String name,
 
-	@JsonProperty("chainTvls")
-	Map<String, BigDecimal> chainTvls,
+    @JsonProperty("chainTvls")
+    ChainTvls chainTvls,
 
-	@JsonProperty("change_1h")
-	Object change1h,
-
-	@JsonProperty("category")
-	String category,
-
-	@JsonProperty("change_1d")
-	Object change1d,
-
-	@JsonProperty("openSource")
-	boolean openSource,
-
-	@JsonProperty("governanceID")
-	List<String> governanceID,
-
-	@JsonProperty("referralUrl")
-	String referralUrl,
-
-	@JsonProperty("github")
-	List<String> github,
-
-	@JsonProperty("audit_links")
-	List<String> auditLinks,
-
-	@JsonProperty("treasury")
-	String treasury
+    @JsonProperty("metrics")
+    Object metrics
 ) {
 }
