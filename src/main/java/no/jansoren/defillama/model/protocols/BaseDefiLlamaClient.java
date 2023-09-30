@@ -11,16 +11,21 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.concurrent.ExecutionException;
 
-public class BaseClient {
+public class BaseDefiLlamaClient {
 
+    protected static final String HOSTNAME_API = "https://api.llama.fi";
+    protected static final String HOSTNAME_COINS = "https://coins.llama.fi";
     protected final HttpClient httpClient;
     protected final ObjectMapper objectMapper;
 
-    public BaseClient(HttpClient httpClient, ObjectMapper objectMapper) {
+    public BaseDefiLlamaClient(HttpClient httpClient, ObjectMapper objectMapper) {
         this.httpClient = httpClient;
         this.objectMapper = objectMapper;
     }
 
+    protected <T> T get(String uri) {
+        return get(uri, new TypeReference<>(){});
+    }
     protected <T> T get(String uri, TypeReference<T> valueTypeRef) {
         try {
             return httpClient.sendAsync(createGetRequest(uri), HttpResponse.BodyHandlers.ofString())
@@ -33,11 +38,10 @@ public class BaseClient {
     }
 
     private HttpRequest createGetRequest(String uri) {
-        var request = HttpRequest.newBuilder()
+        return HttpRequest.newBuilder()
                 .uri(createUri(uri))
                 .GET()
                 .build();
-        return request;
     }
 
     private URI createUri(String uri) {

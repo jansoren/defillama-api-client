@@ -1,9 +1,8 @@
 package no.jansoren.defillama;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import no.jansoren.defillama.model.coins.Coins;
-import no.jansoren.defillama.model.protocols.BaseClient;
+import no.jansoren.defillama.model.coins.Coin;
+import no.jansoren.defillama.model.protocols.BaseDefiLlamaClient;
 
 import java.net.URLEncoder;
 import java.net.http.HttpClient;
@@ -11,27 +10,27 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CoinsClient extends BaseClient {
+public class CoinsClient extends BaseDefiLlamaClient {
 
     public CoinsClient(HttpClient httpClient, ObjectMapper objectMapper) {
         super(httpClient, objectMapper);
     }
 
-    public Coins getPricesOfTokensByContractAddress(String coins, String searchWidth) {
-        return get("https://coins.llama.fi/prices/current/"+coins+"?searchWidth="+searchWidth, new TypeReference<>(){});
+    public Map<String, Coin> getPricesOfTokensByContractAddress(String coins, String searchWidth) {
+        return get(HOSTNAME_COINS+"/prices/current/"+coins+"?searchWidth="+searchWidth);
     }
 
-    public Coins getHistoricalPricesOfTokensByContractAddress(String coins, int timestamp, String searchWidth) {
-        return get("https://coins.llama.fi/prices/historical/" + timestamp + "/" +coins+"?searchWidth="+searchWidth, new TypeReference<>(){});
+    public Map<String, Coin> getHistoricalPricesOfTokensByContractAddress(String coins, int timestamp, String searchWidth) {
+        return get(HOSTNAME_COINS+"/prices/historical/" + timestamp + "/" +coins+"?searchWidth="+searchWidth);
     }
 
-    public Coins getHistoricalPricesForMultipleTokens(String coins, String searchWidth) {
+    public Map<String, Coin> getHistoricalPricesForMultipleTokens(String coins, String searchWidth) {
         var coinsEncoded = URLEncoder.encode(coins, StandardCharsets.UTF_8);
-        return get("https://coins.llama.fi/batchHistorical?coins=" + coinsEncoded + "&searchWidth="+searchWidth, new TypeReference<>(){});
+        return get(HOSTNAME_COINS+"/batchHistorical?coins=" + coinsEncoded + "&searchWidth="+searchWidth);
     }
 
-    public Coins getPricesAtRegularTimeIntervals(String coins, Integer start, Integer end, Integer span, String period, String searchWidth) {
-        String baseUrl = "https://coins.llama.fi/chart/" + coins;
+    public Map<String, Coin> getPricesAtRegularTimeIntervals(String coins, Integer start, Integer end, Integer span, String period, String searchWidth) {
+        String baseUrl = HOSTNAME_COINS+"/chart/" + coins;
 
         Map<String, Object> queryParams = new HashMap<>();
         queryParams.put("start", start);
@@ -41,7 +40,7 @@ public class CoinsClient extends BaseClient {
         queryParams.put("searchWidth", searchWidth);
 
         String uri = queryParamsToString(baseUrl, queryParams);
-        return get(uri, new TypeReference<>(){});
+        return get(uri);
     }
 
     private static String queryParamsToString(String baseUrl, Map<String, Object> queryParams) {
