@@ -9,6 +9,7 @@ import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 public class BaseDefiLlamaClient {
@@ -46,6 +47,33 @@ public class BaseDefiLlamaClient {
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    protected static String queryParamsToString(String baseUrl, Map<String, Object> queryParams) {
+        StringBuilder urlBuilder = new StringBuilder(baseUrl);
+        boolean isFirstParam = true;
+
+        for (Map.Entry<String, Object> entry : queryParams.entrySet()) {
+            var key = entry.getKey();
+            var value = toString(entry.getValue());
+
+            if (value != null) {
+                if (isFirstParam) {
+                    urlBuilder.append("?");
+                    isFirstParam = false;
+                } else {
+                    urlBuilder.append("&");
+                }
+                urlBuilder.append(key).append("=").append(value);
+            }
+        }
+        return urlBuilder.toString();
+    }
+
+    private static String toString(Object value) {
+        if(value != null)
+            return value.toString();
+        return null;
     }
 
     private HttpRequest createGetRequest(String uri) {

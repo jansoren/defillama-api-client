@@ -2,6 +2,7 @@ package no.jansoren.defillama;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import no.jansoren.defillama.model.coins.Coins;
+import no.jansoren.defillama.model.coins.CoinsPercent;
 import no.jansoren.defillama.model.protocols.BaseDefiLlamaClient;
 
 import java.net.URLEncoder;
@@ -43,31 +44,7 @@ public class CoinsClient extends BaseDefiLlamaClient {
         return get(uri, Coins.class);
     }
 
-    private static String queryParamsToString(String baseUrl, Map<String, Object> queryParams) {
-        StringBuilder urlBuilder = new StringBuilder(baseUrl);
-        boolean isFirstParam = true;
-
-        for (Map.Entry<String, Object> entry : queryParams.entrySet()) {
-            var key = entry.getKey();
-            var value = toString(entry.getValue());
-
-            if (value != null) {
-                if (isFirstParam) {
-                    urlBuilder.append("?");
-                    isFirstParam = false;
-                } else {
-                    urlBuilder.append("&");
-                }
-                urlBuilder.append(key).append("=").append(value);
-            }
-        }
-        return urlBuilder.toString();
+    public CoinsPercent getPercentageChangeInPriceOverTime(String coins, int timestamp, boolean lookForward, String period) {
+        return get(HOSTNAME_COINS+"/percentage/"+coins+"?timestamp="+timestamp+"&lookForward="+lookForward+"&period="+period, CoinsPercent.class);
     }
-
-    private static String toString(Object value) {
-        if(value != null)
-            return value.toString();
-        return null;
-    }
-
 }
