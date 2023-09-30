@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.math.BigDecimal;
 import java.net.http.HttpClient;
 import java.util.List;
 
@@ -49,7 +50,7 @@ public class ProtocolsClientTest {
 
     @Test
     void testGetTvlOfProtocol() {
-        Double tvl = client.getTvlOfProtocol("uniswap");
+        BigDecimal tvl = client.getTvlOfProtocol("uniswap");
         Assertions.assertNotNull(tvl);
     }
 

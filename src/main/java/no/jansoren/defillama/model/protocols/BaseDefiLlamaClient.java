@@ -23,9 +23,20 @@ public class BaseDefiLlamaClient {
         this.objectMapper = objectMapper;
     }
 
+    protected <T> T get(String uri, Class<T> clz) {
+        try {
+            return httpClient.sendAsync(createGetRequest(uri), HttpResponse.BodyHandlers.ofString())
+                    .thenApply(HttpResponse::body)
+                    .thenApply(json -> fromJson(json, clz))
+                    .get();
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
+    }
     protected <T> T get(String uri) {
         return get(uri, new TypeReference<>(){});
     }
+
     protected <T> T get(String uri, TypeReference<T> valueTypeRef) {
         try {
             return httpClient.sendAsync(createGetRequest(uri), HttpResponse.BodyHandlers.ofString())

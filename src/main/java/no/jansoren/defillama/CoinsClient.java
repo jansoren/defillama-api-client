@@ -1,7 +1,7 @@
 package no.jansoren.defillama;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import no.jansoren.defillama.model.coins.Coin;
+import no.jansoren.defillama.model.coins.Coins;
 import no.jansoren.defillama.model.protocols.BaseDefiLlamaClient;
 
 import java.net.URLEncoder;
@@ -16,20 +16,20 @@ public class CoinsClient extends BaseDefiLlamaClient {
         super(httpClient, objectMapper);
     }
 
-    public Map<String, Coin> getPricesOfTokensByContractAddress(String coins, String searchWidth) {
-        return get(HOSTNAME_COINS+"/prices/current/"+coins+"?searchWidth="+searchWidth);
+    public Coins getPricesOfTokensByContractAddress(String coins, String searchWidth) {
+        return get(HOSTNAME_COINS+"/prices/current/"+coins+"?searchWidth="+searchWidth, Coins.class);
     }
 
-    public Map<String, Coin> getHistoricalPricesOfTokensByContractAddress(String coins, int timestamp, String searchWidth) {
-        return get(HOSTNAME_COINS+"/prices/historical/" + timestamp + "/" +coins+"?searchWidth="+searchWidth);
+    public Coins getHistoricalPricesOfTokensByContractAddress(String coins, int timestamp, String searchWidth) {
+        return get(HOSTNAME_COINS+"/prices/historical/" + timestamp + "/" +coins+"?searchWidth="+searchWidth, Coins.class);
     }
 
-    public Map<String, Coin> getHistoricalPricesForMultipleTokens(String coins, String searchWidth) {
+    public Coins getHistoricalPricesForMultipleTokens(String coins, String searchWidth) {
         var coinsEncoded = URLEncoder.encode(coins, StandardCharsets.UTF_8);
-        return get(HOSTNAME_COINS+"/batchHistorical?coins=" + coinsEncoded + "&searchWidth="+searchWidth);
+        return get(HOSTNAME_COINS+"/batchHistorical?coins=" + coinsEncoded + "&searchWidth="+searchWidth, Coins.class);
     }
 
-    public Map<String, Coin> getPricesAtRegularTimeIntervals(String coins, Integer start, Integer end, Integer span, String period, String searchWidth) {
+    public Coins getPricesAtRegularTimeIntervals(String coins, Integer start, Integer end, Integer span, String period, String searchWidth) {
         String baseUrl = HOSTNAME_COINS+"/chart/" + coins;
 
         Map<String, Object> queryParams = new HashMap<>();
@@ -40,7 +40,7 @@ public class CoinsClient extends BaseDefiLlamaClient {
         queryParams.put("searchWidth", searchWidth);
 
         String uri = queryParamsToString(baseUrl, queryParams);
-        return get(uri);
+        return get(uri, Coins.class);
     }
 
     private static String queryParamsToString(String baseUrl, Map<String, Object> queryParams) {

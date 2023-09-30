@@ -7,6 +7,7 @@ import no.jansoren.defillama.model.protocols.ProtocolItem;
 import no.jansoren.defillama.model.protocols.Tvl;
 import no.jansoren.defillama.model.protocols.TvlItem;
 
+import java.math.BigDecimal;
 import java.net.http.HttpClient;
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class ProtocolsClient extends BaseDefiLlamaClient {
     }
 
     public Protocol getProtocol(String protocol) {
-        return get(HOSTNAME_API+"/protocol/"+protocol);
+        return get(HOSTNAME_API+"/protocol/"+protocol, Protocol.class);
     }
 
     public List<Tvl> getTvlForAllChains() {
@@ -32,8 +33,8 @@ public class ProtocolsClient extends BaseDefiLlamaClient {
         return get(HOSTNAME_API+"/v2/historicalChainTvl/"+chain);
     }
 
-    public Double getTvlOfProtocol(String protocol) {
-        return get(HOSTNAME_API+"/tvl/"+protocol);
+    public BigDecimal getTvlOfProtocol(String protocol) {
+        return get(HOSTNAME_API+"/tvl/"+protocol, BigDecimal.class);
     }
 
     public List<TvlItem> getTvlForChains() {
