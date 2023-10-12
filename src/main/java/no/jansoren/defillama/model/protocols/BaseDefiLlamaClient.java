@@ -16,6 +16,7 @@ public class BaseDefiLlamaClient {
 
     protected static final String HOSTNAME_API = "https://api.llama.fi";
     protected static final String HOSTNAME_COINS = "https://coins.llama.fi";
+    protected static final String HOSTNAME_STABLECOINS = "https://stablecoins.llama.fi";
     protected final HttpClient httpClient;
     protected final ObjectMapper objectMapper;
 
