@@ -47,4 +47,8 @@ public class CoinsClient extends BaseDefiLlamaClient {
     public CoinsPercent getPercentageChangeInPriceOverTime(String coins, int timestamp, boolean lookForward, String period) {
         return get(HOSTNAME_COINS+"/percentage/"+coins+"?timestamp="+timestamp+"&lookForward="+lookForward+"&period="+period, CoinsPercent.class);
     }
+
+    public Coins getEarliestPrice(String coins) {
+        return get(HOSTNAME_COINS+"/prices/first/"+coins, Coins.class);
+    }
 }
